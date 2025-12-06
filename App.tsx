@@ -65,7 +65,7 @@ const LoadingScreen = () => (
     <div className="absolute inset-0 flex items-center justify-center bg-black z-50">
         <div className="text-center">
             <div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <h2 className="text-cyan-400 font-bold text-xl font-cyber animate-pulse">SAHA HAZIRLANIYOR...</h2>
+            <h2 className="text-cyan-400 font-bold text-xl font-cyber animate-pulse">BES KOŞUSU YÜKLENİYOR...</h2>
         </div>
     </div>
 );
