@@ -13,7 +13,7 @@ import { LANE_WIDTH, LANE_COLORS } from '../../types';
 
 const StarField: React.FC = () => {
   const speed = useStore(state => state.speed);
-  const count = 3000; 
+  const count = 600; // Optimized: Reduced from 3000 to 600 for mobile performance
   const meshRef = useRef<THREE.Points>(null);
   
   const positions = useMemo(() => {
@@ -134,7 +134,7 @@ const RetroSun: React.FC = () => {
     return (
         <group position={[0, 10, -200]}>
             <mesh>
-                <sphereGeometry args={[12, 32, 32]} />
+                <sphereGeometry args={[12, 16, 16]} /> 
                 <meshBasicMaterial color="#ff0080" />
             </mesh>
         </group>
@@ -158,7 +158,7 @@ const MovingGrid: React.FC = () => {
 
     return (
         <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.2, -100]}>
-            <planeGeometry args={[300, 400, 30, 40]} />
+            <planeGeometry args={[300, 400, 20, 20]} /> 
             <meshBasicMaterial 
                 color="#8800ff" 
                 wireframe 
@@ -175,9 +175,8 @@ export const Environment: React.FC = () => {
       <color attach="background" args={['#050011']} />
       <fog attach="fog" args={['#050011', 40, 300]} />
       
-      <ambientLight intensity={0.4} color="#400080" />
-      <directionalLight position={[0, 20, -10]} intensity={1.5} color="#00ffff" />
-      <pointLight position={[0, 25, -150]} intensity={2} color="#ff00aa" distance={200} decay={2} />
+      <ambientLight intensity={0.6} color="#400080" />
+      <directionalLight position={[0, 20, -10]} intensity={1.2} color="#00ffff" />
       
       <StarField />
       <MovingGrid />
