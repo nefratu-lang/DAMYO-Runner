@@ -1,3 +1,4 @@
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -5,21 +6,20 @@
 
 
 import React from 'react';
-import { EffectComposer, Bloom, Vignette, Noise } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 
 export const Effects: React.FC = () => {
   return (
     <EffectComposer disableNormalPass multisampling={0}>
-      {/* Tighter bloom to avoid fog: High threshold, moderate radius */}
+      {/* Optimized Bloom: Lower resolution kernel, fewer levels */}
       <Bloom 
-        luminanceThreshold={0.75} 
+        luminanceThreshold={0.8} 
         mipmapBlur 
-        intensity={1.0} 
-        radius={0.6}
-        levels={8}
+        intensity={0.8} 
+        radius={0.4}
+        levels={4} // Reduced from 8 for performance
       />
-      <Noise opacity={0.05} blendFunction={BlendFunction.OVERLAY} />
+      {/* Removed Noise effect as it is GPU intensive on mobile */}
       <Vignette eskil={false} offset={0.1} darkness={0.5} />
     </EffectComposer>
   );
