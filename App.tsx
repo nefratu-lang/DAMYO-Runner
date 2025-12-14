@@ -76,9 +76,13 @@ function App() {
       <HUD />
       <Suspense fallback={<LoadingScreen />}>
         <Canvas
-            shadows
-            dpr={[1, 1.5]} 
-            gl={{ antialias: false, stencil: false, depth: true, powerPreference: "high-performance" }}
+            dpr={1} // Optimization: Lock DPR to 1 for performance
+            gl={{ 
+                antialias: false, 
+                stencil: false, 
+                depth: true, 
+                powerPreference: "high-performance" 
+            }}
             // Initial camera
             camera={{ position: [0, 8, 15], fov: 60 }}
         >
