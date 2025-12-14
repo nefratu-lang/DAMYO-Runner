@@ -6,7 +6,7 @@
 
 
 import React from 'react';
-import { Heart, Zap, GraduationCap, Gift, Flame, ShoppingBag, Shield, Activity, ArrowUpCircle } from 'lucide-react';
+import { Heart, Zap, GraduationCap, Gift, Flame, ShoppingBag, Shield, Activity, ArrowUpCircle, ChevronLeft, ChevronRight, ArrowUp } from 'lucide-react';
 import { useStore } from '../../store';
 import { GameStatus, RUN_SPEED_BASE, ShopItem } from '../../types';
 import { audio } from '../System/Audio';
@@ -16,6 +16,11 @@ export const HUD: React.FC = () => {
   const { score, lives, maxLives, status, restartGame, startGame, gemsCollected, currentQuestion, questionsAnswered, speed, milestoneMessage, carsiIzniActive, carsiIzniTimer, buyItem, resumeFromShop, hasDoubleJump } = useStore();
 
   const containerClass = "absolute inset-0 pointer-events-none flex flex-col justify-between p-4 md:p-8 z-50";
+
+  // Control Helper
+  const triggerControl = (action: 'LEFT' | 'RIGHT' | 'JUMP') => {
+      window.dispatchEvent(new CustomEvent('game-control', { detail: action }));
+  };
 
   // IMMORTALITY / COMBO OVERLAY
   // MOVED Z-INDEX HIGHER (z-[70]) to be above questions (z-40)
@@ -154,6 +159,7 @@ export const HUD: React.FC = () => {
       );
   }
 
+  // --- PLAYING STATE ---
   return (
     <>
         {comboOverlay}
@@ -209,8 +215,8 @@ export const HUD: React.FC = () => {
                 </div>
             )}
 
-            {/* Bottom Overlay */}
-            <div className="w-full flex justify-between items-end">
+            {/* Bottom Info */}
+            <div className="w-full flex justify-between items-end pointer-events-none mb-24 md:mb-0">
                 <div className="flex items-center text-cyan-500/70">
                     <GraduationCap className="w-5 h-5 mr-2" />
                     <span className="font-mono text-sm md:text-base uppercase">DOĞRU CEVAP: {questionsAnswered}</span>
@@ -219,6 +225,31 @@ export const HUD: React.FC = () => {
                     <Zap className="w-4 h-4 md:w-6 md:h-6 animate-pulse" />
                     <span className="font-mono text-sm md:text-xl uppercase">COFLAMA HIZI %{Math.round((speed / RUN_SPEED_BASE) * 100)}</span>
                 </div>
+            </div>
+            
+            {/* MOBILE CONTROLS */}
+            <div className="absolute bottom-8 left-0 w-full px-4 flex justify-between pointer-events-auto md:hidden z-[60]">
+                <div className="flex space-x-4">
+                     <button 
+                        onPointerDown={() => triggerControl('LEFT')} 
+                        className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center active:bg-white/40 active:scale-95 transition-all border-2 border-white/30"
+                     >
+                        <ChevronLeft className="w-10 h-10 text-white" />
+                     </button>
+                     <button 
+                        onPointerDown={() => triggerControl('RIGHT')} 
+                        className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center active:bg-white/40 active:scale-95 transition-all border-2 border-white/30"
+                     >
+                        <ChevronRight className="w-10 h-10 text-white" />
+                     </button>
+                </div>
+                
+                <button 
+                   onPointerDown={() => triggerControl('JUMP')} 
+                   className="w-20 h-20 bg-cyan-500/30 backdrop-blur-sm rounded-full flex items-center justify-center active:bg-cyan-500/50 active:scale-95 transition-all border-2 border-cyan-400/50"
+                >
+                   <ArrowUp className="w-10 h-10 text-white" />
+                </button>
             </div>
         </div>
     </>
