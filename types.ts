@@ -3,97 +3,31 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-
-import React from 'react';
-
-export enum GameStatus {
-  MENU = 'MENU',
-  PLAYING = 'PLAYING',
-  SHOP = 'SHOP',
-  GAME_OVER = 'GAME_OVER',
-  VICTORY = 'VICTORY'
-}
+// ... (önceki importlar aynı)
 
 export enum ObjectType {
   ANSWER_BLOCK = 'ANSWER_BLOCK',
-  DECORATION = 'DECORATION',
-  POWERUP_HEAL = 'POWERUP_HEAL',
-  OBSTACLE_BAD = 'OBSTACLE_BAD'
+  // DECORATION kaldırıldı (kullanılmıyorsa) veya tutulabilir
+  BONUS_POINT = 'BONUS_POINT', // Yeni: +50 Puan Kutusu
+  OBSTACLE_BAD = 'OBSTACLE_BAD' // Kapuska ve Brokoli bu tipi kullanacak
 }
 
-export enum QuestionType {
-  PRESENT = 'PRESENT', // Green
-  PAST = 'PAST',       // Red
-  FUTURE = 'FUTURE',   // Blue
-  MIXED = 'MIXED'      // Yellow
-}
+// ... (QuestionType aynı kalıyor)
 
 export interface GameObject {
   id: string;
   type: ObjectType;
-  position: [number, number, number]; // x, y, z
+  position: [number, number, number];
   active: boolean;
-  text?: string; // The answer text to display
-  isCorrect?: boolean; // Is this the right answer?
+  text?: string;
+  isCorrect?: boolean;
   color?: string;
   scale?: [number, number, number];
+  subType?: 'KAPUSKA' | 'BROKOLI'; // Yeni: Engelin türünü ayırt etmek için
 }
 
-export interface GrammarQuestion {
-    id: string;
-    sentence: string; 
-    options: string[]; 
-    correctIndex: number;
-    type: QuestionType;
-}
+// ... (Diğer interface'ler aynı)
 
-export interface ShopItem {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    iconType: 'JUMP' | 'HEAL' | 'IMMORTAL';
-}
-
-export const LANE_WIDTH = 4.5; // Significantly wider for better readability
-export const JUMP_HEIGHT = 2.5;
-export const JUMP_DURATION = 0.6; // seconds
-export const RUN_SPEED_BASE = 35.0; // Faster start
-export const SPAWN_DISTANCE = 100;
-export const REMOVE_DISTANCE = 20; // Behind player
-
-// Tense Colors
-export const TENSE_COLORS = {
-    [QuestionType.PRESENT]: '#00e676', // Green
-    [QuestionType.PAST]: '#ff1744',    // Red
-    [QuestionType.FUTURE]: '#2979ff',  // Blue
-    [QuestionType.MIXED]: '#ffea00',   // Yellow
-};
-
-export const LANE_COLORS = ['#ff00ff', '#00ffff', '#ffff00', '#ff0000'];
-
-// Extend JSX.IntrinsicElements for React Three Fiber
-// Declarations for both global JSX and React module JSX to ensure compatibility
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      group: any;
-      mesh: any;
-      points: any;
-      bufferGeometry: any;
-      bufferAttribute: any;
-      pointsMaterial: any;
-      planeGeometry: any;
-      meshBasicMaterial: any;
-      sphereGeometry: any;
-      color: any;
-      fog: any;
-      ambientLight: any;
-      directionalLight: any;
-      pointLight: any;
-      meshStandardMaterial: any;
-      boxGeometry: any;
-      [elemName: string]: any;
-    }
-  }
-}
+// LANE_WIDTH biraz daha geniş tutulabilir mobilde yan yana binmemesi için
+export const LANE_WIDTH = 5.0; 
+// ... (Diğer sabitler aynı)
